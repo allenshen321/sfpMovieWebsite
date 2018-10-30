@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row text-center">
+            <h1>{{ user.username }}&nbsp;的个人资料</h1>
+            <br>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="#" class="thumbnail">
+                    <img src="http://i10.hoopchina.com.cn/hupuapp/bbs/966/16313966/thread_16313966_20180726164538_s_65949_o_w1024_h1024_62044.jpg?x-oss-process=image/resize,w_800/format,jpg" alt="头像">
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <p>用户名：&nbsp;{{ user.username }}</p>
+                <p>用户角色：&nbsp;{{ user.role }}</p>
+                <p>注册邮箱：&nbsp;{{ user.email }}</p>
+                <p>是否确认：&nbsp;{{ user.confirm }}</p>
+                <p>个人简介：&nbsp;{{ user.info }}</p>
+                <p>注册时间：&nbsp;{{ user.registration_time }}</p>
+                <p>上次登录时间：&nbsp;{{ user.lastseen }}</p>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#moviecol" data-toggle="tab">
+                        收藏夹
+                    </a>
+                </li>
+            <li><a href="#followed" data-toggle="tab">关&nbsp;&nbsp;注</a></li>
+            <li><a href="#follower" data-toggle="tab">被关注</a></li>
+            </ul>
+
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="moviecol">
+                    <br>
+                    <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
+                </div>
+                <div class="tab-pane fade" id="followed">
+                    <br>
+                    <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+                        TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+                </div>
+                <div class="tab-pane fade" id="follower">
+                    <br>
+                    <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

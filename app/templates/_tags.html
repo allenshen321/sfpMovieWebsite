@@ -1,0 +1,26 @@
+{#显示所有标签的部分，需要参数：tags#}
+
+<div class="container">
+    <div class="row tags">
+        <ul class="nav nav-pills tags">
+            {% if tag %}
+                <li class=""><a href="{{ url_for('main.show_all_tags') }}">全部分类</a></li>
+            {% else %}
+                <li class="active"><a href="{{ url_for('main.show_all_tags') }}">全部分类</a></li>
+            {% endif %}
+            {% for each_tag in tags %}
+                {% if tag %}
+                    {% if tag.name == each_tag.name %}
+                        <li class="active"><a href="{{ url_for('main.show_tag_movies', tag=each_tag.name) }}">&nbsp;{{ each_tag.name }}</a></li>
+                    {% else %}
+                        <li class=""><a href="{{ url_for('main.show_tag_movies', tag=each_tag.name) }}">&nbsp;{{ each_tag.name }}</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class=""><a href="{{ url_for('main.show_tag_movies', tag=each_tag.name) }}">&nbsp;{{ each_tag.name }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+

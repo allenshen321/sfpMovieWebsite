@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macro %}
+
+{% block content %}
+<div class="container">
+    <div class="row movie">
+        {% for movie in movies %}
+            {% include '_movie-list.html' %}
+        {% endfor %}
+    </div>
+    <div class="row text-center" style="margin-bottom: 100px">
+        {#定义分页#}
+        {{ macro.pagination_widget(pagination, 'main.show_all_movies') }}
+    </div>
+</div>
+{% endblock %}

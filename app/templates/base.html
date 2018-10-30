@@ -1,0 +1,121 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<title>{% block title %}随风飘社区{% endblock %}</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+{% block css %}
+
+{#css#}
+<link href="{{ url_for('static', filename='base/css/bootstrap.min.css') }}" rel='stylesheet' type='text/css' />
+{#<link href="{{ url_for('static', filename='base/css/style.css') }}" rel="stylesheet" type="text/css" media="all" />#}
+{% endblock %}
+
+{#js#}
+{% block js %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='base/js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='base/js/bootstrap.min.js') }}"></script>
+
+{% endblock %}
+
+
+</head>
+
+<body style="padding-bottom: 50px">
+
+{#页面的头部，导航栏上面#}
+{#<div class="jumbotron text-center" style="margin-bottom:0">#}
+{#  #}
+{#</div>#}
+
+{#导航页#}
+<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">
+                <img src="{{ url_for('static', filename='base/images/logo.png') }}" alt="" style="height: 30px; display: inline;" >&nbsp;随风飘电影
+            </a>
+        </div>
+
+        <div class="navbar-collapse">
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group input-group">
+                    <input type="text" class="form-control" placeholder="请输入电影名！" id="key_movie">
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" id="do_search"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
+                    </span>
+                </div>
+            </form>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
+{#                  <li><a href="{{ url_for('main.user', username=current_user.username) }}"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>#}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            个人中心
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('main.user', id=current_user.id) }}">个人资料</a></li>
+                            <li><a href="{{ url_for('main.edit_profile', id=current_user.id) }}">修改资料</a></li>
+                            <li><a href="#">修改密码</a></li>
+                            <li><a href="#">绑定手机</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{{ url_for('auth.registration') }}"><span class="glyphicon glyphicon-registration-mark"></span> 注册</a></li>
+                    <li><a href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{#电影分类导航#}
+<nav class="navbar navbar-inverse" role="navigation" style="margin-top: 0px;">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="#">电影分类</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="#">中国大陆</a></li>
+            <li><a href="#">美国</a></li>
+            <li><a href="#">香港</a></li>
+            <li><a href="#">日本</a></li>
+            <li><a href="#">韩国</a></li>
+            <li><a href="#">印度</a></li>
+            <li><a href="{{ url_for('main.show_all_tags') }}"><strong>全部分类</strong></a></li>
+		</ul>
+	</div>
+	</div>
+</nav>
+
+
+{#消息提醒#}
+<div class="container">
+    <div class="row">
+        {% include '_message.html' %}
+    </div>
+</div>
+
+{#正文块#}
+<div class="content" style="margin-top: 50px">
+{% block content %}
+
+{% endblock %}
+</div>
+
+{#页面底部#}
+<div class="navbar-fixed-bottom text-center" style="margin-bottom: 20px">
+  <p>copyright@allen 2018-10-26</p>
+</div>
+
+</body>
+</html>

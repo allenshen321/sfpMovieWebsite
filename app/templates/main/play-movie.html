@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row nav text-center" style="color: chartreuse;">
+        <h1>{{ movie.name }}</h1>
+        <br>
+    </div>
+</div>
+
+{#电影播放页面设置    #}
+<script type="text/javascript" src="{{ url_for('static', filename='ckplayer/ckplayer.js') }}"></script>
+<div class="container">
+    <div class="row">
+        <div id="video" style=""></div>
+    </div>
+</div>
+<script type="text/javascript">
+	var videoObject = {
+		container: '#video',//“#”代表容器的ID，“.”或“”代表容器的class
+		variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+		flashplayer:false,//如果强制使用flashplayer则设置成true
+		{#video:'http://1251883823.vod2.myqcloud.com/9dae6688vodgzp1251883823/eee2f5485285890781495685799/GsFlWsOLlokA.mp4'//视频地址#}
+        video:'http://1251883823.vod2.myqcloud.com/9dae6688vodgzp1251883823/907128b75285890781938594070/vLk0gzD2Pr4A.mp4'//视频地址
+	};
+	var player=new ckplayer(videoObject);
+</script>
+{#电影播放页面设置    #}
+{% endblock %}

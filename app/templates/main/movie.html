@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row title">
+            <h2>{{ movie.name }}</h2>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-xs-3 movie-cover">
+                <a href="#"><img src="{{ movie.cover }}" alt=""></a>
+            </div>
+            <div class="col-xs-5">
+                <ul class="text-left" id="info">
+                    <li>
+                        <span class="pl">评分：</span>
+                        <a href="#">{{ movie.rating}}</a>
+                    </li>
+                    <li>
+                        <span class="pl">导演:</span>
+                        <a href="#">{{ movie.director }}</a>
+                    </li>
+                    <li>
+                        <span class="pl">主演：</span>
+                        <a href="#">{{ movie.actors }}</a>
+                    </li>
+                    <li>
+                        <span class="pl">类型：</span>
+                        <a href="#">{{ tags }}</a>
+                    </li>
+                    <li>
+                        <span class="pl">上映地区：</span>
+                        <a href="#">{{ movie.area }}</a>
+                    </li>
+                    <li>
+                        <span class="pl">上映时间：</span>
+                        <a href="#">{{ movie.release_time }}</a>
+                    </li>
+                    <li>
+                        <span class="pl">播放次数：</span>
+                        <a href="#">{{ movie.play_num}}</a>
+                    </li>
+                    <br>
+                    <li>
+                        <a href="{{ url_for('main.play_movie', id=movie.id) }}">
+                            <button type="button" class="btn btn-primary"
+                                    data-loading-text="Loading...">立即观看
+                            </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        &nbsp;
+        <div class="row movie-introdction">
+            <h4 style="color: #55ff2d;">{{ movie.name }}的剧情简介:</h4>
+            <p>{{ movie.introduction }}</p>
+        </div>
+        &nbsp
+        <div class="row comment">
+            <h4 style="color: #55ff2d;">{{ movie.name }}的短评:&nbsp {{ movie.commentnum }}</h4>
+            <p>{{ movie.comments }}</p>
+        </div>
+    </div>
+
+{% endblock %}

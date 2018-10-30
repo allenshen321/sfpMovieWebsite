@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   <div class="container" style="margin-top:120px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-log-in"></span>&nbsp;修改资料</h3>
+                </div>
+                <div class="panel-body">
+                    <!--注册表单-->
+                    <form role="form" method="post">
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="input_contact"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ form.username.label }}</label>
+                                {#表单错误提示#}
+                                <div class="email">
+                                    {{ form.username}}
+                                </div>
+                                {% for err in form.username.errors %}
+                                    <div class="col-md-12">
+                                        <p style="color: red">{{ err }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-12" id="error_contact"></div>
+                            <div class="form-group">
+                                <label for="input_contact"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ form.info.label }}</label>
+                                {#表单错误提示#}
+                                <div class="username">
+                                    {{ form.info}}
+                                </div>
+
+                                {% for err in form.info.errors %}
+                                    <div class="col-md-12">
+                                        <p style="color: red">{{ err }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-12" id="error_contact"></div>
+
+                            <div class="submit">
+                                {{ form.csrf_token }}
+                                {{ form.submit }}
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
