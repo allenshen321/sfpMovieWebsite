@@ -1,0 +1,24 @@
+.movie-list{
+    margin-bottom: 100px;
+}
+.movie{
+    margin-top: 30px;
+}
+.movie .movie-img{
+    height: 198px;
+    margin-top: 20px;
+}
+.movie .movie-img a{
+    background-color: red;
+}
+.movie .movie-img a img{
+    width: 100%;
+    height: 198px;
+}
+.movie-info{
+    height: 200px;
+    margin-top: 20px;
+}
+.movie-info a{
+    font-size: 18px;
+}

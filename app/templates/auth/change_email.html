@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row page-header">
+            <h1>确认邮件：</h1>
+        </div>
+        <div class="row content">
+            <p>您好，{{ user.username }}：</p>
+            <p>&nbsp;&nbsp;点击下面链接，继续您之前的操作，</p>
+        </div>
+    </div>
+{% endblock %}

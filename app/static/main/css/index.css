@@ -1,0 +1,160 @@
+
+.movie-tag .type p{
+    font-size: 20px;
+    color: #7fff2b;
+}
+.movie-tag .more a{
+    font-size: 20px;
+    color: #7266ff;
+}
+.movie-tag .rank p{
+    font-size: 20px;
+    color: red;
+}
+.first{
+    height: 180px;
+    overflow: hidden;
+    border: 0px;
+    padding: 0px;
+    background-color: darkgoldenrod;
+
+}
+.first a img{
+    height: 140px;
+    width: 100%;
+}
+.first .first-info{
+    height: 30px;
+    margin-top: 5px;
+}
+.first-info:hover{
+    text-decoration: none;
+}
+.first-info p{
+    margin-top: 5px;
+    color: #803119;
+}
+.first-info p:hover{
+    text-decoration: none;
+    color: gold;
+}
+.secend{
+    height: 180px;
+    overflow: hidden;
+    border: 0px;
+    padding: 0px;
+    background-color: darkgoldenrod;
+}
+.secend a{
+    height: 140px;
+}
+.secend a{
+    text-decoration: none;
+}
+.secend a img{
+    height: 140px;
+    width: 100%;
+}
+.secend-info{
+    margin-top: 5px;
+    text-decoration: none;
+    color: #803119;
+}
+.secend-info:hover{
+    text-decoration: none;
+    color: gold;
+}
+@media (min-width: 960px) {
+    .first{
+        height: 390px;
+        overflow: hidden;
+        border: 0px;
+        background-color: darkgoldenrod;
+    }
+    .first a img{
+        height: 330px;
+        width: 100%;
+    }
+    .first .first-info{
+        height: 50px;
+        margin-top: 5px;
+    }
+    .first-info:hover{
+        color: gold;
+    }
+    .secend{
+        height: 190px;
+        overflow: hidden;
+        border: 0px;
+        background-color: darkgoldenrod;
+    }
+    .secend a{
+        height: 160px;
+    }
+    .secend a{
+        text-decoration: none;
+    }
+    .secend a img{
+        height: 150px;
+        width: 100%;
+    }
+    .secend-info{
+        margin-top: 5px;
+        color: #803119;
+    }
+    .secend-info:hover{
+        text-decoration: none;
+        color: gold;
+    }
+}
+@media (min-width: 768px) and (max-width: 960px){
+    .first{
+        height: 200px;
+        overflow: hidden;
+        border: 0px;
+        background-color: darkgoldenrod;
+    }
+    .first a img{
+        height: 150px;
+        width: 100%;
+    }
+    .first .first-info{
+        height: 80px;
+        margin-top: 5px;
+    }
+    .secend{
+        height: 200px;
+        overflow: hidden;
+        border: 0px;
+        background-color: darkgoldenrod;
+    }
+    .secend a{
+        height: 150px;
+    }
+    .secend a:hover{
+        text-decoration: none;
+    }
+    .secend a img{
+        height: 150px;
+        width: 100%;
+    }
+    .secend-info{
+        margin-top: 5px;
+        text-decoration: none;
+        color: #803119;
+    }
+    .secend-info:hover{
+        text-decoration: none;
+        color: gold;
+    }
+}
+
+.movie-rank li a{
+    font-size: 18px;
+    color: #7266ff;
+    margin-top: 10px;
+}
+.movie-rank a{
+    color: red;
+    margin-top: 10px;
+}

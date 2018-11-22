@@ -1,6 +1,4 @@
 {#显示所有标签的部分，需要参数：tags#}
-
-{#显示所有标签的部分，需要参数：tags#}
 <style type="text/css">
 
     /* select */
@@ -28,16 +26,16 @@
                 <dl id="select1">
                     <dt>地区分类</dt>
                     {% if p['area'] %}
-                        <dd class="select-all"><a href="{{ url_for('auth.manage_movie') }}?area=&tag={{ p['tag'] }}&time={{ p['time'] }}">全部地区</a></dd>
+                        <dd class="select-all"><a href="{{ url_for('main.show_all_movies') }}?area=&tag={{ p['tag'] }}&time={{ p['time'] }}">全部地区</a></dd>
                     {% else %}
-                        <dd class="select-all selected"><a href="{{ url_for('auth.manage_movie') }}?area=&tag={{ p['tag'] }}&time={{ p['time'] }}">全部地区</a></dd>
+                        <dd class="select-all selected"><a href="{{ url_for('main.show_all_movies') }}?area=&tag={{ p['tag'] }}&time={{ p['time'] }}">全部地区</a></dd>
                     {% endif %}
 
                     {% for area in areas %}
                         {% if p['area'] == area %}
-                            <dd class="selected"><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ area }}</a></dd>
+                            <dd class="selected"><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ area }}</a></dd>
                         {% else %}
-                            <dd><a href="{{ url_for('auth.manage_movie') }}?area={{ area }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ area }}</a></dd>
+                            <dd><a href="{{ url_for('main.show_all_movies') }}?area={{ area }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ area }}</a></dd>
                         {% endif %}
                     {% endfor %}
                 </dl>
@@ -46,16 +44,16 @@
                 <dl id="select2">
                     <dt>标签分类</dt>
                     {% if p['tag'] %}
-                        <dd class="select-all"><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag=&time={{ p['time'] }}">全部标签</a></dd>
+                        <dd class="select-all"><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag=&time={{ p['time'] }}">全部标签</a></dd>
                     {% else %}
-                        <dd class="select-all selected"><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag=&time={{ p['time'] }}">全部标签</a></dd>
+                        <dd class="select-all selected"><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag=&time={{ p['time'] }}">全部标签</a></dd>
                     {% endif %}
 
                     {% for tag in tags %}
                         {% if p['tag'] == tag.name %}
-                            <dd class="selected"><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ tag.name }}</a></dd>
+                            <dd class="selected"><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ tag.name }}</a></dd>
                          {% else %}
-                            <dd><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag={{ tag }}&time={{ p['time'] }}">{{ tag.name }}</a></dd>
+                            <dd><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag={{ tag }}&time={{ p['time'] }}">{{ tag.name }}</a></dd>
                         {% endif %}
                     {% endfor %}
                 </dl>
@@ -64,16 +62,16 @@
                 <dl id="select3">
                     <dt>年代分类</dt>
                     {% if p['time'] %}
-                        <dd class="select-all"><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time=">全部年代</a></dd>
+                        <dd class="select-all"><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time=">全部年代</a></dd>
                     {% else %}
-                        <dd class="select-all selected"><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time=">全部年代</a></dd>
+                        <dd class="select-all selected"><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time=">全部年代</a></dd>
                     {% endif %}
 
                     {% for time in times %}
                         {% if p['time'] == time %}
-                            <dd class="selected"><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ time }}</a></dd>
+                            <dd class="selected"><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ p['time'] }}">{{ time }}</a></dd>
                         {% else %}
-                            <dd><a href="{{ url_for('auth.manage_movie') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ time }}">{{ time }}</a></dd>
+                            <dd><a href="{{ url_for('main.show_all_movies') }}?area={{ p['area'] }}&tag={{ p['tag'] }}&time={{ time }}">{{ time }}</a></dd>
                         {% endif %}
                     {% endfor %}
                 </dl>
@@ -81,4 +79,6 @@
         </ul>
 	</div>
 </div>
+
+
 

@@ -1,27 +1,14 @@
-{#显示所有标签的部分，需要参数：tags#}
+{% extends 'auth/base.html' %}
+{% import '_macros.html' as macro %}
 
-{#显示所有标签的部分，需要参数：tags#}
-<style type="text/css">
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth/css/manage-index.css') }}">
+{% endblock %}
 
-    /* select */
-    .select{padding:5px 10px;border:#ddd 1px solid;border-radius:4px;width:100%;margin:5% auto;font-size:18px}
-    .select li{list-style:none;padding:10px 0 5px 100px}
-    .select .select-list{border-bottom:#eee 1px dashed}
-    .select dl{zoom:1;position:relative;line-height:24px;}
-    .select dl:after{content:" ";display:block;clear:both;height:0;overflow:hidden}
-    .select dt{width:100px;margin-bottom:5px;position:absolute;top:0;left:-100px;text-align:right;color:#666;height:24px;line-height:24px}
-    .select dd{float:left;display:inline;margin:0 0 5px 5px;}
-    .select a{display:inline-block;white-space:nowrap;height:24px;padding:0 10px;text-decoration:none;color:#039;border-radius:2px;}
-    .select a:hover{color:#f60;background-color:#f3edc2}
-    .select .selected a{color:#fff;background-color:#f60}
-    .select-result dt{font-weight:bold}
-    .select-no{color:#999}
-    .select .select-result a{padding-right:20px;background:#f60 url({{ url_for('static', filename='ext/close.gif') }}) right 9px no-repeat}
-    .select .select-result a:hover{background-position:right -15px}
-</style>
-
-
-<div class="container">
+{% block content %}
+{#    加入筛选标签#}
+ <div class="container">
 	<div class="row">
         <ul class="select">
             <li class="select-list">
@@ -82,3 +69,37 @@
 	</div>
 </div>
 
+
+<div class="container">
+    <div class="row movie-list">
+        {% for movie in movies %}
+            <div class="col-md-2 col-sm-3 col-xs-4 movie">
+                <div class="thumbnail">
+                    <a href="{{ url_for('main.movie', id=movie.id) }}">
+                        <img src="{{ movie.cover }}" alt="">
+                        <p class="text-center">{{ movie.name }} &nbsp <strong>{{ movie.rating }}</strong></p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-3 col-xs-2 manage-movie">
+                <a href="{{ url_for('auth.delete_movie', id=movie.id) }}?time={{ p['time'] }}&tag={{ p['tag'] }}&area={{ p['area'] }}" class="btn btn-primary">删除电影</a>
+                <a href="#" class="btn btn-primary">更新信息</a>
+                {% if movie.is_recomment %}
+                    <a href="{{ url_for('auth.recomment_movie', id=movie.id) }}?time={{ p['time'] }}&tag={{ p['tag'] }}&area={{ p['area'] }}" class="btn btn-danger disabled">&nbsp;&nbsp;已推荐&nbsp;&nbsp;</a>
+                {% else %}
+                    <a href="{{ url_for('auth.recomment_movie', id=movie.id) }}?time={{ p['time'] }}&tag={{ p['tag'] }}&area={{ p['area'] }}" class="btn btn-primary">推荐电影</a>
+                {% endif %}
+                {% if movie.is_recomment %}
+                    <a href="{{ url_for('auth.unrecomment_movie', id=movie.id) }}?time={{ p['time'] }}&tag={{ p['tag'] }}&area={{ p['area'] }}" class="btn btn-primary">取消推荐</a>
+                {% else %}
+                    <a href="{{ url_for('auth.unrecomment_movie', id=movie.id) }}?time={{ p['time'] }}&tag={{ p['tag'] }}&area={{ p['area'] }}" class="btn btn-danger disabled">&nbsp;&nbsp;未推荐&nbsp;&nbsp;{% endif %}</a>
+            </div>
+        {% endfor %}
+    </div>
+    <hr>
+    <div class="row text-center page">
+        {#定义分页#}
+        {{ macro.pagination_widget(pagination, 'auth.manage_movie', time=p['time'], area=p['area'], tag=p['tag']) }}
+    </div>
+</div>
+{% endblock %}

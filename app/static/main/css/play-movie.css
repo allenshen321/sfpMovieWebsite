@@ -1,0 +1,45 @@
+.title{
+    color: chartreuse;
+}
+
+.play{
+    width: auto;
+    height: 600px;
+}
+.dm{
+    margin-top: 20px;
+}
+
+.introduction{
+    margin-top: 30px;
+}
+.introduction p:first-child{
+    font-size: 18px;
+    color: #ff5500;
+}
+.introduction p:last-child{
+    font-size: 16px;
+    line-height: 20px;
+}
+.mycomment form div label{
+    font-size: 16px;
+}
+.comment-list .title{
+    font-size: 18px;
+    color: #ff5500;
+}
+#comment{
+    margin-left: 10px;
+}
+.movie-source{
+    /*background-color: #7266ff;*/
+    height: 1000px;
+}
+.aside>h3{
+    color: #7266ff;
+    margin-bottom: 30px;
+}
+
+
+/*脚本的格式设置*/
+#dale_movie_subject_top_right,#dale_movie_subject_top_right,#dale_movie_subject_top_midle,#dale_movie_subject_middle_right,#dale_movie_subject_bottom_super_banner,#footer,#dale_movie_subject_download_middle,#dale_movie_subject_inner_middle,#movie_home_left_bottom,#dale_movie_home_top_right,#dale_movie_home_side_top,#dale_movie_home_bottom_right,#dale_movie_home_inner_bottom,#dale_movie_home_download_bottom,#dale_movie_home_bottom_right_down,#dale_movie_towhome_explore_right,#dale_movie_chart_top_right,#dale_movie_tags_top_right,#dale_review_best_top_right,.mobile-app-entrance.block5.app-movie,.qrcode-app,.top-nav-doubanapp,.extra,div.gray_ad,p.pl,div.ticket{display:none}.c-aside{margin-bottom:30px}.c-aside h4{color: #ff5500}.c-aside-body{*letter-spacing:normal}.c-aside-body a{border-radius:6px;color:#37A;display:inline-block;letter-spacing:normal;margin:0 8px 8px 0;padding:0;text-align:center;width:70px}.c-aside-body a:link,.c-aside-body a:visited{background-color: #7fff2b;color:#37A}  .c-aside-body a:hover,.c-aside-body a:active{background-color:#e8e8e8;color:#37A}  .c-aside-body a.available{background-color:#5ccccc;color:#006363}  .c-aside-body a.available:hover,.c-aside-body a.available:active{background-color:#3cc}  .c-aside-body a.sites_r0{text-decoration:line-through}  #c_dialog li{margin:10px}  #c_dialog{text-align:center}  #interest_sectl .rating_imdb{border-top:1px solid #eaeaea;border-bottom:1px solid #eaeaea;padding-bottom:0}  #interest_sectl .rating_wrap{padding-top:15px}  #interest_sectl .rating_more{border-bottom:1px solid #eaeaea;color:#9b9b9b;margin:0;padding:15px 0;position:relative}  #interest_sectl .rating_more a{left:80px;position:absolute}  #interest_sectl .rating_more .titleOverviewSprite{background:url(https://coding.net/u/Changhw/p/MyDoubanMovieHelper/git/raw/master/title_overview_sprite.png) no-repeat;display:inline-block;vertical-align:middle}  #interest_sectl .rating_more .popularityImageUp{background-position:-14px -478px;height:8px;width:8px}  #interest_sectl .rating_more .popularityImageDown{background-position:-34px -478px;height:8px;width:8px}  #interest_sectl .rating_more .popularityUpOrFlat{color:#83c40b}  #interest_sectl .rating_more .popularityDown{color:#930e02}  .more{display:block;height:34px;line-height:34px;text-align:center;font-size:14px;background:#f7f7f7}  div#drdm_setting input[type=checkbox]{display:none}  div#drdm_setting input[type=checkbox]+label{display:inline-block;width:40px;height:20px;position:relative;transition:.3s;margin:0 20px;box-sizing:border-box;background:#ddd;border-radius:20px;box-shadow:1px 1px 3px #aaa}  div#drdm_setting input[type=checkbox]+label:after,div#drdm_setting input[type=checkbox]+label:before{content:'';display:block;position:absolute;left:0;top:0;width:20px;height:20px;transition:.3s;cursor:pointer}  div#drdm_setting input[type=checkbox]+label:after{background:#fff;border-radius:50%;box-shadow:1px 1px 3px #aaa}  div#drdm_setting input[type=checkbox]:checked+label{background:#aedcae}  div#drdm_setting input[type=checkbox]:checked+label:after{background:#5cb85c;left:calc(100% - 20px)}  .top250{background:url(https://s.doubanio.com/f/movie/f8a7b5e23d00edee6b42c6424989ce6683aa2fff/pics/movie/top250_bg.png) no-repeat;width:150px;margin-right:5px;font:12px Helvetica,Arial,sans-serif;margin:5px 0;color:#744900}  .top250 span{display:inline-block;text-align:center;height:18px;line-height:18px}  .top250 a,.top250 a:link,.top250 a:hover,.top250 a:active,.top250 a:visited{color:#744900;text-decoration:none;background:0}  .top250-no{width:34%}  .top250-link{width:66%}  .drdm-dl-horizontal dt{float:left;width:160px;overflow:hidden;clear:left;text-align:right;text-overflow:ellipsis;white-space:nowrap}  .drdm-dl-horizontal dd{margin-left:180px}

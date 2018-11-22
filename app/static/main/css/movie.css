@@ -1,0 +1,45 @@
+.comment-list .title{
+            font-size: 18px;
+            color: #7266ff;
+        }
+        .comment-list ul{
+            font-size: 16px;
+            list-style-type: none;
+        }
+        .comment-list ul li a{
+            font-size: 16px;
+            display: inline-block;
+        }
+        .comment-list ul li .comment-time{
+            font-size: 16px;
+            display: inline-block;
+        }
+        .comment-list ul li .comment-body{
+            line-height: 16px;
+            margin-top: 10px;
+        }
+        .movie-introdction p{
+            line-height: 20px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .movie-cover{
+            height: 400px;
+            border: 0px solid black;
+            padding: 0px;
+        }
+        .movie-cover a img{
+            height: 400px;
+            width: 100%;
+        }
+        .movie-info{
+            height: 400px;
+        }
+        .movie-info div p{
+            font-size: 25px;
+            line-height: 30px;
+        }
+        .movie-info ul{
+            list-style-type: none;
+            font-size: 18px;
+        }

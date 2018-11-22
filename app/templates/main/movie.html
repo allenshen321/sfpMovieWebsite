@@ -1,32 +1,37 @@
 {% extends 'base.html' %}
 
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='main/css/movie.css') }}">
+{% endblock %}
+
 {% block content %}
     <div class="container">
-        <div class="row title">
-            <h2>{{ movie.name }}</h2>
-        </div>
-        <br>
         <div class="row">
-            <div class="col-xs-3 movie-cover">
-                <a href="#"><img src="{{ movie.cover }}" alt=""></a>
+            <div class="col-xs-6 col-sm-4 col-md-3 movie-cover thumbnail">
+                <a href="{{ movie.cover }}"><img src="{{ movie.cover }}" alt=""></a>
             </div>
-            <div class="col-xs-5">
+            <div class="col-xs-6 col-sm-6 col-md-6 movie-info">
+                <div class="text-left">
+                    <p>{{ movie.name }}</p>
+                </div>
+                <br>
                 <ul class="text-left" id="info">
-                    <li>
-                        <span class="pl">评分：</span>
-                        <a href="#">{{ movie.rating}}</a>
-                    </li>
                     <li>
                         <span class="pl">导演:</span>
                         <a href="#">{{ movie.director }}</a>
                     </li>
                     <li>
                         <span class="pl">主演：</span>
-                        <a href="#">{{ movie.actors }}</a>
+                        <a href="#">{{ movie.actors[:100] }}······</a>
                     </li>
                     <li>
                         <span class="pl">类型：</span>
                         <a href="#">{{ tags }}</a>
+                    </li>
+                    <li>
+                        <span class="pl">豆瓣评分：</span>
+                        <a href="#"><strong>{{ movie.rating}}</strong></a>
                     </li>
                     <li>
                         <span class="pl">上映地区：</span>
@@ -41,26 +46,32 @@
                         <a href="#">{{ movie.play_num}}</a>
                     </li>
                     <br>
-                    <li>
+                    <div class="row btn">
                         <a href="{{ url_for('main.play_movie', id=movie.id) }}">
                             <button type="button" class="btn btn-primary"
                                     data-loading-text="Loading...">立即观看
                             </button>
                         </a>
-                    </li>
+                        <a href="{{ url_for('main.movie_col', id=movie.id) }}" id="moviecol">
+                            <button type="button" class="btn btn-primary"
+                                    data-loading-text="Loading...">加入收藏
+                            </button>
+                        </a>
+                    </div>
                 </ul>
             </div>
         </div>
         &nbsp;
+        <hr>
+{#        电影剧情简介#}
         <div class="row movie-introdction">
             <h4 style="color: #55ff2d;">{{ movie.name }}的剧情简介:</h4>
-            <p>{{ movie.introduction }}</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{ movie.introduction }}</p>
         </div>
         &nbsp
-        <div class="row comment">
-            <h4 style="color: #55ff2d;">{{ movie.name }}的短评:&nbsp {{ movie.commentnum }}</h4>
-            <p>{{ movie.comments }}</p>
-        </div>
+        <hr>
+{#        评论#}
+        {% include '_comment.html' %}
     </div>
 
 {% endblock %}

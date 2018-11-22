@@ -1,0 +1,46 @@
+.movie-list{
+    margin-top: 20px;
+}
+.movie-list .movie{
+    height: 250px;
+    margin-top: 30px;
+    overflow: hidden;
+}
+.movie div{
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    background-color: darkgoldenrod;
+}
+.movie div a:hover{
+    text-decoration: none;
+}
+.movie div a img{
+    height: 220px;
+    width: 100%;
+}
+@media (max-width: 467px) {
+    .movie div a img{
+        height: 130px;
+        width: 100%;
+    }
+    .movie-list .movie{
+        height: 200px;
+        margin-top: 15px;
+        overflow: hidden;
+    }
+}
+.movie div a p{
+    height: 50px;
+    color: #803119;
+    margin-top: 5px;
+}
+.movie div a p:hover{
+    color: gold;
+}
+.movie div a p strong{
+    color: #55ff2d;
+}
+.page{
+    margin-bottom: 80px;
+}

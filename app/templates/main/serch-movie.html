@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{#css#}
+{% block css %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='main/css/search-movie.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container movie-list">
+        <div class="row">
+            <h1>搜索&nbsp;{{ key_movie }}&nbsp;(共{{ movies_count }}部)</h1>
+        </div>
+        <div class="row movie" id="movie">
+        {% for movie in movies %}
+            <div class="col-xs-4 col-sm-3 col-md-2 movie-img" id="movie-img">
+                <a href="{{ url_for('main.movie', id=movie.id) }}">
+                    <img src="{{ movie.cover }}" alt="{{ movie.name }}">
+                </a>
+            </div>
+            <div class="col-xs-8 col-sm-3 col-md-4 movie-info" id="movie-info">
+                <a href="{{ url_for('main.movie', id=movie.id) }}">
+                    {{ movie.name }}&nbsp;&nbsp;({{ movie.rating }})
+                </a>
+                <p>导演:&nbsp;{{ movie.director }}</p>
+                <p>演员:&nbsp;{{ movie.actors[:50] }}&nbsp;......</p>
+                <p>语言:&nbsp;{{ movie.language }}</p>
+                <p>上映地区:&nbsp;{{ movie.area }}</p>
+                <p>上映时间:&nbsp;{{ movie.release_time }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
 
+{% block css %}
+    {{ super() }}
+    <style type="text/css">
+        .comment-movie{
+            font-size: 18px;
+            color: #7266ff;
+            margin-top: 20px;
+        }
+        .comment-movies p{
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .comment-movies p strong{
+            color: #090302;
+        }
+        .user-info{
+            font-size: 16px;
+        }
+        .followed .row .username, .follower .row .username{
+            display: inline-block;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .followed .row .addtime, .follower .row .addtime{
+            display: inline-block;
+            font-size: 18px;
+            margin-top: 20px
+        }
+        .user-photo img{
+            height: 220px;
+        }
+    </style>
+{% endblock %}
+
+
 {% block content %}
     <div class="container">
         <div class="row text-center">
@@ -7,19 +42,29 @@
             <br>
         </div>
         <div class="row">
-            <div class="col-sm-2">
-                <a href="#" class="thumbnail">
-                    <img src="http://i10.hoopchina.com.cn/hupuapp/bbs/966/16313966/thread_16313966_20180726164538_s_65949_o_w1024_h1024_62044.jpg?x-oss-process=image/resize,w_800/format,jpg" alt="头像">
+            <div class="col-sm-2 user-photo">
+                <a href="{{ url_for('main.user', id=user.id) }}" class="thumbnail">
+                    <img src="{{ url_for('static', filename='base/images/photo.jpg') }}" alt="头像">
                 </a>
             </div>
-            <div class="col-sm-6">
-                <p>用户名：&nbsp;{{ user.username }}</p>
-                <p>用户角色：&nbsp;{{ user.role }}</p>
-                <p>注册邮箱：&nbsp;{{ user.email }}</p>
-                <p>是否确认：&nbsp;{{ user.confirm }}</p>
-                <p>个人简介：&nbsp;{{ user.info }}</p>
-                <p>注册时间：&nbsp;{{ user.registration_time }}</p>
-                <p>上次登录时间：&nbsp;{{ user.lastseen }}</p>
+            <div class="col-sm-6 user-info">
+                <p>
+                    <strong>用户名：</strong>&nbsp;{{ user.username }}
+                    &nbsp;&nbsp;&nbsp;
+                    {% if current_user.is_following(user) %}
+                        <a href="{{ url_for('main.unfollow', id=user.id) }}" class="btn btn-danger">取消关注</a>
+                    {% else %}
+                        <a href="{{ url_for('main.follow', id=user.id) }}" class="btn btn-primary">关注</a>
+                    {% endif %}
+                </p>
+                <p><strong>用户角色：</strong>&nbsp;{{ user.role.name }}</p>
+                {% if current_user.id == user.id %}
+                    <p><strong>注册邮箱：</strong>&nbsp;{{ user.email }}</p>
+                {% endif %}
+                <p><strong>是否确认：</strong>&nbsp;{{ user.confirm }}</p>
+                <p><strong>个人简介：</strong>&nbsp;{{ user.info }}</p>
+                <p><strong>注册时间：</strong>&nbsp;{{ user.registration_time }}</p>
+                <p><strong>上次登录时间：</strong>&nbsp;{{ last_userlog.log_time }}</p>
             </div>
         </div>
         <hr>
@@ -31,23 +76,68 @@
                         收藏夹
                     </a>
                 </li>
-            <li><a href="#followed" data-toggle="tab">关&nbsp;&nbsp;注</a></li>
-            <li><a href="#follower" data-toggle="tab">被关注</a></li>
+                <li><a href="#comment-movie" data-toggle="tab">评价的电影</a></li>
+                <li><a href="#followed" data-toggle="tab">关&nbsp;&nbsp;注</a></li>
+                <li><a href="#follower" data-toggle="tab">被关注</a></li>
             </ul>
 
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade in active" id="moviecol">
                     <br>
-                    <p>菜鸟教程是一个提供最新的web技术站点，本站免费提供了建站相关的技术文档，帮助广大web技术爱好者快速入门并建立自己的网站。菜鸟先飞早入行——学的不仅是技术，更是梦想。</p>
+                    <div class="container">
+                        <div class="row movie-test-dark">
+                            {% for movie in moviecols %}
+                               {% include '_movie-list.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
+                <div class="tab-pane fade" id="comment-movie">
+                    <br>
+                    <div class="container">
+                        <div class="row comment-movies">
+                            {% for comment in comments %}
+                                <a href="{{ url_for('main.movie', id=comment.movie.id) }}" class="col-sm-8 comment-movie">电影:&nbsp;{{ comment.movie.name }}</a>
+                                <p class="col-sm-4">{{ comment.addtime }}</p>
+                                <p class="col-sm-12"><strong>评价内容:</strong>&nbsp;{{ comment.body }}</p>
+                                <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+{#                关注#}
                 <div class="tab-pane fade" id="followed">
                     <br>
-                    <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
-                        TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+                    <div class="container followed">
+                        {% for followed in followeds %}
+                        <div class="row">
+                            <div class="col-sm-3 username">
+                                <a href="{{ url_for('main.user', id=followed.followed_id) }}">
+                                    <span class="glyphicon glyphicon-user"></span>{{ followed.followed.username }}
+                                </a>
+                            </div>
+                            <div class="col-sm-9 addtime">
+                                <p>{{ followed.addtime }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
                 </div>
                 <div class="tab-pane fade" id="follower">
                     <br>
-                    <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+                    <div class="container follower">
+                        {% for follower in followers %}
+                        <div class="row">
+                            <div class="col-sm-3 username">
+                                <a href="{{ url_for('main.user', id=follower.follower_id) }}"><span class="glyphicon glyphicon-user"></span>{{ follower.follower.username }}</a>
+                            </div>
+                            <div class="col-sm-9 addtime">
+                                <p>{{ follower.addtime }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

@@ -9,53 +9,46 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 {% block css %}
-
-{#css#}
 <link href="{{ url_for('static', filename='base/css/bootstrap.min.css') }}" rel='stylesheet' type='text/css' />
-{#<link href="{{ url_for('static', filename='base/css/style.css') }}" rel="stylesheet" type="text/css" media="all" />#}
 {% endblock %}
 
 {#js#}
-{% block js %}
 
 <script type="text/javascript" src="{{ url_for('static', filename='base/js/jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='base/js/bootstrap.min.js') }}"></script>
 
-{% endblock %}
 
 
 </head>
 
-<body style="padding-bottom: 50px">
+<body style="background-color: #e4fffc; margin-bottom: 100px">
 
 {#页面的头部，导航栏上面#}
-{#<div class="jumbotron text-center" style="margin-bottom:0">#}
-{#  #}
-{#</div>#}
 
-{#导航页#}
-<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0px">
+
+{#导航页,中大型设备#}
+<nav class="navbar navbar-default navbar-inverse navbar-static-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
                 <img src="{{ url_for('static', filename='base/images/logo.png') }}" alt="" style="height: 30px; display: inline;" >&nbsp;随风飘电影
             </a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-
-        <div class="navbar-collapse">
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group input-group">
-                    <input type="text" class="form-control" placeholder="请输入电影名！" id="key_movie">
-                    <span class="input-group-btn">
-                        <a class="btn btn-default" id="do_search"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
-                    </span>
-                </div>
-            </form>
-
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.show_all_movies') }}">电影分类</a></li>
+                <li><a href="{{ url_for('main.show_all_movies') }}?time=&tag=&area=美国">欧美电影</a></li>
+                <li><a href="{{ url_for('main.show_all_movies') }}?time=&tag=动画&area=">动漫资源</a></li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span> 退出登录</a></li>
-{#                  <li><a href="{{ url_for('main.user', username=current_user.username) }}"><span class="glyphicon glyphicon-user"></span> 个人中心</a></li>#}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             个人中心
@@ -64,8 +57,9 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ url_for('main.user', id=current_user.id) }}">个人资料</a></li>
                             <li><a href="{{ url_for('main.edit_profile', id=current_user.id) }}">修改资料</a></li>
-                            <li><a href="#">修改密码</a></li>
+                            <li><a href="{{ url_for('main.edit_password') }}">修改密码</a></li>
                             <li><a href="#">绑定手机</a></li>
+                            <li><a href="{{ url_for('main.userlog') }}">登录日志</a></li>
                         </ul>
                     </li>
                 {% else %}
@@ -77,26 +71,21 @@
     </div>
 </nav>
 
-{#电影分类导航#}
-<nav class="navbar navbar-inverse" role="navigation" style="margin-top: 0px;">
-	<div class="container-fluid">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="#">电影分类</a>
-	</div>
-	<div>
-		<ul class="nav navbar-nav">
-			<li><a href="#">中国大陆</a></li>
-            <li><a href="#">美国</a></li>
-            <li><a href="#">香港</a></li>
-            <li><a href="#">日本</a></li>
-            <li><a href="#">韩国</a></li>
-            <li><a href="#">印度</a></li>
-            <li><a href="{{ url_for('main.show_all_tags') }}"><strong>全部分类</strong></a></li>
-		</ul>
-	</div>
-	</div>
-</nav>
+{#        搜索导航#}
+<div class="container">
+    <div class="row">
+        <form class="navbar-form text-right" role="search" action="{{ url_for('main.serch_movie') }}" method="get">
+            <div class="form-group input-group">
+                <input type="text" class="form-control" placeholder="请输入电影名！" id="key_movie" name="key_movie">
+                <span class="input-group-btn">
+                    <input type="submit" value="&nbsp;搜索" class="btn btn-default" id="do_search">
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
 
+{#            右边导航#}
 
 {#消息提醒#}
 <div class="container">
@@ -113,9 +102,14 @@
 </div>
 
 {#页面底部#}
-<div class="navbar-fixed-bottom text-center" style="margin-bottom: 20px">
+<div class="navbar-fixed-bottom text-center" style="margin-bottom: 20px; margin-top: 100px">
   <p>copyright@allen 2018-10-26</p>
 </div>
 
+{#js#}
+{% block js %}
+
+{% endblock %}
+{#js#}
 </body>
 </html>

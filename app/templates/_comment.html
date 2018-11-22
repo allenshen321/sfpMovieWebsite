@@ -1,0 +1,52 @@
+{#评价列表,及评价框#}
+{% import '_macros.html' as macro %}
+
+{#        评论#}
+<div class="row mycomment">
+<form role="form" method="POST">
+    <div class="form-group">
+        <label for="comment">{{ form.body.label }}</label>
+        <div id="comment">
+            {{ form.body(class="form-control", placeholder="想对电影说点什么呢？") }}
+        </div>
+    </div>
+    <div class="form-group col-md-12">
+        {{ form.csrf_token }}
+        {{ form.submit }}
+    </div>
+</form>
+</div>
+<hr>
+{#        评论列表#}
+<div class="row comment-list">
+    <p class="title">{{ movie.name }}的短评:&nbsp ({{ movie.comments.count() }})</p>
+    <ul class="col-md-12">
+        {% for comment in comments %}
+            <li>
+                <a href="{{ url_for('main.user', id=comment.user.id) }}" class="col-md-6 col-sm-6 col-xs-6"><span class="glyphicon glyphicon-user"></span><strong>&nbsp;{{ comment.user.username }}</strong></a>
+                <p class="comment-time col-md-6 col-sm-6 col-xs-6">{{ comment.addtime }}</p>
+                <p class="col-md-12 comment-body"><strong>评论内容:</strong>&nbsp;{{ comment.body }}</p>
+                <hr class="col-md-12">
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="row pagination">
+    {{ macro.pagination_widget(pagination, endpoint='main.movie', id=movie.id) }}
+</div>
+<hr>
+{#        评论#}
+<div class="row mycomment">
+<form role="form" method="POST">
+    <div class="form-group">
+        <label for="comment">{{ form.body.label }}</label>
+        <div id="comment">
+            {{ form.body(class="form-control", placeholder="想对电影说点什么呢？") }}
+        </div>
+    </div>
+    <div class="form-group col-md-12">
+        {{ form.csrf_token }}
+        {{ form.submit }}
+    </div>
+</form>
+</div>

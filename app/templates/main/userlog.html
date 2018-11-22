@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% import '_macros.html' as macro %}
+
+{% block content %}
+<div class="container userlogs" style="background-color: #e4fffc">
+    <div class="row log-table">
+        <div class="col-md-6 col-md-offset-3">
+            <table class="table table-striped">
+                <caption><h1><a href="{{ url_for('main.user', id=current_user.id) }}">{{ current_user.username }}</a>&nbsp;的登录日志:</h1></caption>
+                <thead>
+                    <tr>
+                        <th>登录时间</th>
+                        <th>登录IP</th>
+                        <th>退出时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for userlog in userlogs %}
+                        <tr>
+                            <td>{{ userlog.log_time }}</td>
+                            <td>{{ userlog.ip }}</td>
+                            <td>{{ userlog.logout_time }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+{#            分页#}
+            {{ macro.pagination_widget(pagination, 'main.userlog') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

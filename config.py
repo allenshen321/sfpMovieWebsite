@@ -7,7 +7,19 @@ class BaseConfig(object):
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    FLASK_MOVIE_PER_PAGE_COUNT = 20
+    # 管理员
+    FLASK_ADMIN = secret.FLASK_ADMIN
+
+    # 邮件相关
+    FLASK_MAIL_NAME = secret.FLASK_MAIL_NAME
+    FLASK_MAIL_PASSWORD = secret.FLASK_MAIL_PASSWORD
+    FLASK_MAIL_SERVER = secret.FLASK_MAIL_SERVER
+    FLASK_MAIL_PORT = secret.FLASK_MAIL_PORT
+
+    # 分页
+    FLASK_MOVIE_PER_PAGE_COUNT = 30
+    FLASK_COMMENT_PER_PAGE_COUNT = 20
+    FLASK_USERLOG_PER_PAGE_COUNT = 20
 
     @staticmethod
     def init_app(app):

@@ -1,0 +1,16 @@
+[uwsgi]
+# uwsgi 启动是所使用的地址和端口
+socket = 127.0.0.1:8001
+# http = 127.0.0.1:8001
+# 指向网站目录
+chdir = /home/allen/桌面/python/projects/sfpMovieWebsite
+# python 启动程序文件
+wsgi-file = manage.py
+# python程序内使用的application变量名,一般是app
+callable = app
+# 处理器数
+processes = 4
+# 线程数
+thread = 2
+# 状态监测地址
+status = 127.0.0.1:9191

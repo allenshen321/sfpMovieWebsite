@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>{% block title %}管理员{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base/css/bootstrap.min.css') }}">
+    {% block css %}
+
+    {% endblock %}
+    <script src="{{ url_for('static', filename='base/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='base/js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+{#导航#}
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ url_for('auth.manage_movie') }}">
+                <img src="{{ url_for('static', filename='base/images/logo.png') }}" alt="" style="height: 30px; display: inline;" >&nbsp;随风飘电影管理页面
+            </a>
+        </div>
+        <div class="nav navbar-nav">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        电影管理
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.add_movie') }}">新增电影</a></li>
+                        <li><a href="{{ url_for('auth.manage_movie') }}">管理电影</a></li>
+                        <li><a href="#">更新电影信息</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        更新资源
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">最大资源网</a></li>
+                        <li><a href="#">正在开发中...</a></li>
+                        <li><a href="#">正在开发中...</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        用户用户
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">修改权限</a></li>
+                        <li><a href="#">待完善...</a></li>
+                        <li><a href="#">待完善...</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                       评论管理
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">修改评论</a></li>
+                        <li><a href="#">待完善...</a></li>
+                        <li><a href="#">待完善...</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+{#        搜索导航#}
+        <div class="navbar-collapse navbar-right">
+            <form class="navbar-form navbar-left" role="search" action="{{ url_for('main.serch_movie') }}" method="get">
+                <div class="form-group input-group">
+                    <input type="text" class="form-control" placeholder="请输入电影名！" id="key_movie" name="key_movie">
+                    <span class="input-group-btn">
+                        <input type="submit" value="&nbsp;搜索" class="btn btn-default" id="do_search">
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+{% block content %}
+
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
+
+</body>
+</html>

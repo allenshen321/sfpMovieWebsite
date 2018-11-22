@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 {% import '_macros.html' as macro %}
 
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='main/css/show-all-movies.css') }}">
+{% endblock %}
+
 {% block content %}
+{#    加入筛选标签#}
+{% include '_tags2.html' %}
+
 <div class="container">
-    <div class="row movie">
+    <div class="row movie-list">
         {% for movie in movies %}
             {% include '_movie-list.html' %}
         {% endfor %}
     </div>
-    <div class="row text-center" style="margin-bottom: 100px">
+    <hr>
+    <div class="row text-center page">
         {#定义分页#}
-        {{ macro.pagination_widget(pagination, 'main.show_all_movies') }}
+        {{ macro.pagination_widget(pagination, 'main.show_all_movies', time=p['time'], area=p['area'], tag=p['tag']) }}
     </div>
 </div>
 {% endblock %}
