@@ -101,8 +101,16 @@ def logout():
 @login_required
 @admin_required
 def add_movie():
+    """
+    新增电影，已过电影已存在则更新电影信息
+    :return:
+    """
     form = AddRecommentMovieForm()
     if form.validate_on_submit():
+        movie = Movie.query.filter_by(name=form.name.data).first()
+        if movie:
+            flash('电影已存在!')
+            return redirect(url_for('auth.update_movie', id=movie.id))
         movie = Movie(name=form.name.data,
                       url=form.url.data,
                       cover=form.cover.data,
@@ -130,8 +138,50 @@ def add_movie():
         db.session.commit()
         flash('电影添加成功')
         return redirect('auth/add-recomment-movie/')
-
     return render_template('auth/add-movie.html', form=form)
+
+
+@auth.route('/admin/update/movie/<int:id>/', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def update_movie(id):
+    form = AddRecommentMovieForm()
+
+    if form.validate_on_submit():
+        movie = Movie.query.get_or_404(id)
+        movie.name = form.name.data
+        movie.url = form.url.data
+        movie.release_time = form.release_time.data
+        movie.cover = form.cover.data
+        movie.director = form.director.data
+        movie.actors = form.actors.data
+        movie.rating = form.rating.data
+        movie.area = form.area.data
+        movie.language = form.language.data
+        movie.introduction = form.introduction.data
+        movie.is_recomment = form.is_recomment.data
+        db.session.add(movie)
+        db.session.commit()
+        flash('电影信息已更新')
+        return redirect(url_for('auth.manage_movie'))
+
+    # 初始化form表单
+    movie = Movie.query.get_or_404(id)
+    if movie:
+        form.name.data = movie.name
+        form.url.data = movie.url
+        form.release_time.data = movie.release_time
+        form.cover.data = movie.cover
+        form.director.data = movie.director
+        form.actors.data = movie.actors
+        form.rating.data = movie.rating
+        form.area.data = movie.area
+        form.language.data = movie.language
+        form.introduction.data = movie.introduction
+        form.is_recomment.data = movie.is_recomment
+
+
+    return render_template('auth/update-movie.html', form=form)
 
 
 @auth.route('/admin/manage/movie/')
@@ -222,6 +272,9 @@ def recomment_movie(id):
     time = request.args.get('time', '')
     area = request.args.get('area', '')
     tag = request.args.get('tag', '')
+    print(request.url)
+    print(request.environ.get('HTTP_REFERER'))
+    referer = request.environ.get('HTTP_REFERER', None)
     return redirect(url_for('auth.manage_movie', time=time, area=area, tag=tag))
 
 
@@ -243,4 +296,9 @@ def unrecomment_movie(id):
     time = request.args.get('time', '')
     area = request.args.get('area', '')
     tag = request.args.get('tag', '')
+    referer = request.environ.get('HTTP_REFERER', None)
+    if referer:
+        return redirect(referer)
     return redirect(url_for('auth.manage_movie', time=time, area=area, tag=tag))
+
+

@@ -31,7 +31,7 @@ class AddRecommentMovieForm(FlaskForm):
     actors = StringField('演员:')
     tags = StringField('类型(多个类型以"/"分开):')
     rating = StringField('豆瓣评分:')
-    release_time = DateField('上映时间:')
+    release_time = StringField('上映时间:')
     area = StringField('地区:')
     language = StringField('语言:')
     introduction = TextAreaField('剧情介绍:')

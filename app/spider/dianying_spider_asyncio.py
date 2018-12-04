@@ -1,8 +1,11 @@
 # 最大资源网电影资源
-import requests, re
+import re
+import asyncio
+import aiohttp
+from datetime import datetime
+
 from fake_useragent import UserAgent
 from lxml import etree
-from datetime import datetime
 from app.models import Movie, Tag, db
 
 
@@ -12,8 +15,13 @@ class HtmlDownloader(object):
         self.ua = UserAgent()
         self.url_list = None
         self.movie = {}
+        self.count = 0  # 记录成功保存电影数目
+        self.err_count = 0  # 记录出错数
+        self.req_count = 0  # 请求数
 
-    def start_request(self, url):
+    async def start_request(self, url, session):
+        self.req_count += 1
+        print('第{}次请求'.format(self.req_count))
         if not url:
             return None
         user_agent = self.ua.random
@@ -24,18 +32,27 @@ class HtmlDownloader(object):
             'Accept-Encoding': 'gzip, deflate',
             'Connection': 'keep-alive'
         }
-        r = requests.get(url, headers=headers)
-        if r.status_code == 200:
-            r.encoding = 'utf-8'
-            return r.text
+        try:
+            r = await session.get(url, headers=headers)
+            if r.status == 200:
+                r.encoding = 'utf-8'
+                return await r.text()
+        except asyncio.TimeoutError as e:
+            self.err_count += 1
+            print(e)
+            print('请求出错数{}'.format(self.err_count))
+            return None
         return None
 
-    def download(self, url):
+    async def download(self, url, session):
         """
         接受url， 进行请求，返回请求结果
         :param url:
+        :param session aiohttp.ClientSession对象
         :return:
         """
+        self.req_count += 1
+        print('第{}次请求'.format(self.req_count))
         user_agent = self.ua.random
         headers = {
             'User-Agent': user_agent,
@@ -44,26 +61,32 @@ class HtmlDownloader(object):
             'Accept-Encoding': 'gzip, deflate',
             'Connection': 'keep-alive'
         }
-        r = requests.get(url, headers=headers)
-        if r.status_code == 200:
-            r.encoding = 'utf-8'
-            return r.text
+        try:
+            r = await session.get(url, headers=headers)
+            if r.status == 200:
+                r.encoding = 'utf-8'
+                return await r.text()
+        except asyncio.TimeoutError as e:
+            self.err_count += 1
+            print(e)
+            print('请求出错数{}'.format(self.err_count))
+            return
         return None
 
     def parse_url(self, response):
         """
         解析相应中的url地址
-        :param response:
+        :param response: 请求返回的结果
         :return: 返回url列表
         """
         if not response:
             return None
         html = etree.HTML(response)
-        self.url_list = html.xpath(r'//div[@class="wrap"]/div[@class="box clear"]/table/tbody/tr/td[@class="l"]/a/@href')#.extract()
+        self.url_list = html.xpath(r'//div[@class="wrap"]/div[@class="box clear"]/table/tbody/tr/td[@class="l"]/a/@href')
         # print(url_list)
         # return url_list
 
-    def parse_movie_url(self, response):
+    async def parse_movie_url(self, response, session):
         """
         解析电影播放url
         :param response: 电影详情的响应
@@ -74,7 +97,8 @@ class HtmlDownloader(object):
         html = etree.HTML(response)
         try:
             movie_name = html.xpath(r'//div[@class="contentMain"]/div["videoDetail"]/li[1]/text()[2]')[0]#.extract_first()
-            if self.check_is_exist_movie(movie_name):
+            is_exist = await self.check_is_exist_movie(movie_name, session)
+            if is_exist:
                 return None
             self.movie['name'] = movie_name  # 电影名字
         except Exception as e:
@@ -142,46 +166,53 @@ class HtmlDownloader(object):
         :param tag_type_dict:
         :return:
         """
-        if self.movie != {}:
-            movie = Movie(
-                name=self.movie['name'],
-                url=self.movie['url'],
-                release_time=self.movie['release_time'],
-                area=self.movie['area'],
-                introduction=self.movie['info'],
-                actors=self.movie['actors'],
-                director=self.movie['director'],
-                rating=self.movie['rating'],
-                cover=self.movie['cover'],
-                addtime=datetime.now(),
-            )
-            print(self.movie['tags'])
-            if self.movie['tags']:
-                tag = Tag.query.filter_by(name=self.movie['tags'][:2]).first()
-                if tag:
-                    movie.tags.append(tag)
-                else:
-                    new_tag = Tag(name=self.movie['tags'][:2], addtime=datetime.now())
-                    db.session.add(new_tag)
+        from app import creat_app, db
+        from app.models import Movie, Tag
+
+        app = creat_app('default')
+        with app.app_context():
+            if self.movie != {}:
+                movie = Movie(
+                    name=self.movie['name'],
+                    url=self.movie['url'],
+                    release_time=self.movie['release_time'],
+                    area=self.movie['area'],
+                    introduction=self.movie['info'],
+                    actors=self.movie['actors'],
+                    director=self.movie['director'],
+                    rating=self.movie['rating'],
+                    cover=self.movie['cover'],
+                    addtime=datetime.now(),
+                )
+                # print(self.movie['tags'])
+                if self.movie['tags']:
+                    tag = Tag.query.filter_by(name=self.movie['tags'][:2]).first()
+                    if tag:
+                        movie.tags.append(tag)
+                    else:
+                        new_tag = Tag(name=self.movie['tags'][:2], addtime=datetime.now())
+                        db.session.add(new_tag)
+                        db.session.commit()
+                        movie.tags.append(new_tag)
+
+                try:
+                    db.session.add(movie)
                     db.session.commit()
-                    movie.tags.append(new_tag)
+                except Exception as e:
+                    print(e)
+                    db.session.rollback()
+                else:
+                    self.count += 1
+                    print('已成功插入: {0}, 这是第{1}部电影'.format(movie.name, self.count))
 
-            try:
-                db.session.add(movie)
-                db.session.commit()
-                print('已成功插入: {}'.format(movie.name))
-            except Exception as e:
-                print(e)
-                db.session.rollback()
-
-    def check_is_exist_movie(self, name):
+    async def check_is_exist_movie(self, name, session):
         """
         验证数据库是否存在该电影, 如果存在检测url是否为.m3u8类型,如果不是,尝试转换
         :return:
         """
         movie = Movie.query.filter(Movie.name == name).first()
         if movie and not movie.url.endswith('.m3u8'):
-            r = self.download(movie.url)
+            r = await self.download(movie.url, session)
             html = etree.HTML(r)
             try:
                 pattern = re.compile(r'redirecturl = "(http://.*?.com)"')
@@ -196,30 +227,58 @@ class HtmlDownloader(object):
                 db.session.rollback()
         return movie
 
+    async def download_one(self, url, base_url, session):
+        """
+        下载单个电影
+        :param url: 单个电影的url
+        :return:
+        """
+        resp = await self.download(base_url + url, session)
+        # 电影播放地址和电影信息
+        info = await self.parse_movie_url(resp, session)
+        if not info:
+            return
+        else:
+            loop = asyncio.get_event_loop()
+            loop.run_in_executor(None, self.insert_movie_to_mysql)
+            # self.insert_movie_to_mysql()
+
+    async def download_one_page(self, page, base_url, session):
+        """
+        下载一个页面的电影
+        :param url:
+        :return:
+        """
+        # print('正在保存{}页'.format(str(page)))
+        url = "http://www.jingpinzy.net/?m=vod-index-pg-{}.html".format(str(page))
+        r = await self.start_request(url, session)
+        # 电影详情页url
+        self.parse_url(r)
+        # 电影详情页下载页面
+        if self.url_list:
+            to_do = [self.download_one(url, base_url, session) for url in self.url_list]
+            await asyncio.wait(to_do)
+
+
+async def add_movie_coro():
+    """爬虫下载协程管理逻辑"""
+    scrapy = HtmlDownloader()
+    base_url = 'http://www.jingpinzy.net'
+    async with aiohttp.ClientSession() as session:
+        to_do = [scrapy.download_one_page(page, base_url, session) for page in range(1, 447)]
+        await asyncio.wait(to_do)
+    print('共新增电影: {} 部电影'.format(scrapy.count))
+
 
 def add_movie():
     """
     控制爬虫主程序
     :return:
     """
-    scrapy = HtmlDownloader()
-    base_url = 'http://www.jingpinzy.net'
-    # page = 0
-    for page in range(1, 447):
-        print('正在保存第{}页'.format(str(page)))
-        url = "http://www.jingpinzy.net/?m=vod-index-pg-{}.html".format(str(page))
-        r = scrapy.start_request(url)
-        # 电影详情页url
-        scrapy.parse_url(r)
-        # 电影详情页下载页面
-        for url in scrapy.url_list:
-            r = scrapy.download(base_url + url)
-            # 电影播放地址和电影信息
-            info = scrapy.parse_movie_url(r)
-            if not info:
-                break
-            # time.sleep(2)
-            scrapy.insert_movie_to_mysql()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(add_movie_coro())
+    loop.close()
+    print('下载完成')
 
 
 if __name__ == '__main__':

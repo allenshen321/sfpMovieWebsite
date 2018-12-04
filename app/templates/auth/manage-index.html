@@ -83,7 +83,7 @@
             </div>
             <div class="col-md-2 col-sm-3 col-xs-2 manage-movie">
                 <a href="{{ url_for('auth.delete_movie', id=movie.id) }}?time={{ p['time'] }}&tag={{ p['tag'] }}&area={{ p['area'] }}" class="btn btn-primary">删除电影</a>
-                <a href="#" class="btn btn-primary">更新信息</a>
+                <a href="{{ url_for('auth.update_movie', id=movie.id) }}" class="btn btn-primary">更新信息</a>
                 {% if movie.is_recomment %}
                     <a href="{{ url_for('auth.recomment_movie', id=movie.id) }}?time={{ p['time'] }}&tag={{ p['tag'] }}&area={{ p['area'] }}" class="btn btn-danger disabled">&nbsp;&nbsp;已推荐&nbsp;&nbsp;</a>
                 {% else %}

@@ -363,8 +363,13 @@ def serch_movie():
     key_movie = request.args.get('key_movie', '')
     movies = Movie.query.filter(or_(Movie.name.like('%{}%'.format(key_movie)), Movie.actors.like('%{}%'.format(key_movie)))).all()
     movies_count = Movie.query.filter(or_(Movie.name.like('%{}%'.format(key_movie)), Movie.actors.like('%{}%'.format(key_movie)))).count()
-
-    return render_template('main/serch-movie.html',
+    if 'auth/admin/' in request.environ.get('HTTP_REFERER', None):
+        return render_template('auth/manage-movie.html',
+                                   movies=movies,
+                                   key_movie=key_movie,
+                                   movies_count=movies_count)
+    else:
+        return render_template('main/serch-movie.html',
                            movies=movies,
                            key_movie=key_movie,
                            movies_count=movies_count)

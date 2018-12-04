@@ -5,6 +5,7 @@ from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 from app.models import User, Role
 from app.spider.dianying_spider import add_movie
+# from app.spider.dianying_spider_asyncio import add_movie
 
 
 app = creat_app('default')

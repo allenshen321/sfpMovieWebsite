@@ -224,7 +224,7 @@ class Movie(db.Model):
     language = db.Column(db.String(64))  # 语言
     introduction = db.Column(db.Text)  # 电影简介
     actors = db.Column(db.String(255))  # 电影演员
-    director = db.Column(db.String(64))  # 电影导演
+    director = db.Column(db.String(125))  # 电影导演
     file_size = db.Column(db.String(64))  # 文件大小
     rating = db.Column(db.Float)  # 评分
     cover = db.Column(db.String(255))  # 电影封面

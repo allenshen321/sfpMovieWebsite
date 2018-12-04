@@ -1,5 +1,36 @@
 {% extends 'auth/base.html' %}
 
-{% block content %}
+{% block css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth/css/manage-index.css') }}">
+{% endblock %}
 
+{% block content %}
+<div class="container">
+    <div class="row movie-list">
+            {% for movie in movies %}
+                <div class="col-md-2 col-sm-3 col-xs-4 movie">
+                    <div class="thumbnail">
+                        <a href="{{ url_for('main.movie', id=movie.id) }}">
+                            <img src="{{ movie.cover }}" alt="">
+                            <p class="text-center">{{ movie.name }} &nbsp <strong>{{ movie.rating }}</strong></p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-3 col-xs-2 manage-movie">
+                    <a href="{{ url_for('auth.delete_movie', id=movie.id) }}" class="btn btn-primary">删除电影</a>
+                    <a href="{{ url_for('auth.update_movie', id=movie.id) }}" class="btn btn-primary">更新信息</a>
+                    {% if movie.is_recomment %}
+                        <a href="{{ url_for('auth.recomment_movie', id=movie.id) }}" class="btn btn-danger disabled">&nbsp;&nbsp;已推荐&nbsp;&nbsp;</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.recomment_movie', id=movie.id) }}" class="btn btn-primary">推荐电影</a>
+                    {% endif %}
+                    {% if movie.is_recomment %}
+                        <a href="{{ url_for('auth.unrecomment_movie', id=movie.id) }}" class="btn btn-primary">取消推荐</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.unrecomment_movie', id=movie.id) }}" class="btn btn-danger disabled">&nbsp;&nbsp;未推荐&nbsp;&nbsp;{% endif %}</a>
+                </div>
+            {% endfor %}
+    </div>
+</div>
 {% endblock %}
