@@ -7,7 +7,7 @@ fake-useragent==0.1.11
 get==1.0.3
 idna==2.7
 jsonpath==0.75
-lxml==3.7.2
+lxml==4.9.1
 post==1.0.2
 public==2.0.1
 pycparser==2.19
